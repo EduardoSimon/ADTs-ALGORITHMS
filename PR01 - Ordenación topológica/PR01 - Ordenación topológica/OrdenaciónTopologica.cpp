@@ -72,7 +72,7 @@ GrafoDirigido::GrafoDirigido(const char * nombreFichero) throw(string) {
 
 void GrafoDirigido::mostrarOrdenTopologico() const throw(string) {
 
-	// A completar en el primer ejercicio
+	//declaramos un vector paralelo para tener el contador de los incidentes
 	vector<int> numeroIncidentes(vertices.size());
 	queue<Vertice> colaVertices;
 
@@ -80,18 +80,35 @@ void GrafoDirigido::mostrarOrdenTopologico() const throw(string) {
 		numeroIncidentes[i] = vertices[i].incidentes.size();
 	}
 
-	int indiceRaiz = 1;
+	int indice = 1;
 
-	while (indiceRaiz < numeroIncidentes.size()) {
-		if (numeroIncidentes[indiceRaiz] == 0) {
-			colaVertices.push(vertices[indiceRaiz]);
+	while (indice < numeroIncidentes.size()) 
+	{
+		if (numeroIncidentes[indice] == 0) 
+		{
+			colaVertices.push(vertices[indice]);
 
+			Vertice temp = vertices[indice];
+
+			//el for recorre todos los arcos que salen del vertice que tiene 0 arcos incidentes
+			for (int i = 0; i < temp.adyacentes.size(); i++)
+			{
+				//acedemos al contador del vertice destino de ese mismo arco y restamos 1.
+				numeroIncidentes[temp.adyacentes[i].destino] --;
+			}
 		}
+
+		indice++;
 	}
 
-	if (indiceRaiz == numeroIncidentes.size())
-		throw string("El grafo no es acíclico");
+	if (colaVertices.size() != numeroIncidentes.size())
+		throw string("El grafo es cíclico");
 
+	while (!colaVertices.empty())
+	{
+		//ir mostrando los resultados
+
+	}
 
 }
 

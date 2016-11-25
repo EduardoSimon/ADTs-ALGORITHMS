@@ -1,0 +1,6 @@
+﻿  Huffman.cpp
+d:\repo\algoritmos\huffman\huffman\huffman.h(32): warning C4290: C++ exception specification ignored except to indicate a function is not __declspec(nothrow)
+d:\repo\algoritmos\huffman\huffman\huffman.h(33): warning C4290: C++ exception specification ignored except to indicate a function is not __declspec(nothrow)
+d:\repo\algoritmos\huffman\huffman\huffman.cpp(20): warning C4290: C++ exception specification ignored except to indicate a function is not __declspec(nothrow)
+d:\repo\algoritmos\huffman\huffman\huffman.cpp(57): warning C4290: C++ exception specification ignored except to indicate a function is not __declspec(nothrow)
+LINK : fatal error LNK1561: entry point must be defined

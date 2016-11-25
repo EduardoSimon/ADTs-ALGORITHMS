@@ -1,0 +1,9 @@
+﻿  Source.cpp
+d:\repo\algoritmos\mergesort\mergesort\source.cpp(10): warning C4290: C++ exception specification ignored except to indicate a function is not __declspec(nothrow)
+d:\repo\algoritmos\mergesort\mergesort\source.cpp(15): warning C4290: C++ exception specification ignored except to indicate a function is not __declspec(nothrow)
+d:\repo\algoritmos\mergesort\mergesort\source.cpp(30): warning C4018: '<': signed/unsigned mismatch
+d:\repo\algoritmos\mergesort\mergesort\source.cpp(83): warning C4018: '<': signed/unsigned mismatch
+d:\repo\algoritmos\mergesort\mergesort\source.cpp(91): warning C4018: '<': signed/unsigned mismatch
+d:\repo\algoritmos\mergesort\mergesort\source.cpp(47): warning C4715: 'MergeSort::MergeSortAlgorithm': not all control paths return a value
+  MergeSort.vcxproj -> D:\REPO\ALGORITMOS\MergeSort\Debug\MergeSort.exe
+  MergeSort.vcxproj -> D:\REPO\ALGORITMOS\MergeSort\Debug\MergeSort.pdb (Partial PDB)

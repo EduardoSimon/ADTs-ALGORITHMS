@@ -1,0 +1,4 @@
+﻿  ConjuntoDeEnteros.cpp
+d:\repo\algoritmos\diccionarioabb\diccionarioabb\conjuntodeenteros.h(32): warning C4290: C++ exception specification ignored except to indicate a function is not __declspec(nothrow)
+  DiccionarioABB.vcxproj -> D:\REPO\ALGORITMOS\DiccionarioABB\Debug\DiccionarioABB.exe
+  DiccionarioABB.vcxproj -> D:\REPO\ALGORITMOS\DiccionarioABB\Debug\DiccionarioABB.pdb (Partial PDB)

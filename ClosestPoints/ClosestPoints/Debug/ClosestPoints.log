@@ -1,0 +1,22 @@
+﻿  Source.cpp
+d:\repo\algoritmos\closestpoints\closestpoints\source.cpp(42): warning C4018: '<': signed/unsigned mismatch
+d:\repo\algoritmos\closestpoints\closestpoints\source.cpp(44): warning C4018: '<': signed/unsigned mismatch
+d:\repo\algoritmos\closestpoints\closestpoints\source.cpp(150): warning C4018: '<': signed/unsigned mismatch
+d:\repo\algoritmos\closestpoints\closestpoints\source.cpp(162): warning C4018: '<': signed/unsigned mismatch
+d:\repo\algoritmos\closestpoints\closestpoints\source.cpp(177): warning C4018: '<': signed/unsigned mismatch
+d:\repo\algoritmos\closestpoints\closestpoints\source.cpp(180): warning C4018: '<': signed/unsigned mismatch
+c:\program files (x86)\microsoft visual studio 14.0\vc\include\utility(172): warning C4244: 'initializing': conversion from 'int' to 'float', possible loss of data
+  d:\repo\algoritmos\closestpoints\closestpoints\source.cpp(221): note: see reference to function template instantiation 'std::pair<float,float>::pair<int,int,void,0>(_Other1 &&,_Other2 &&) noexcept' being compiled
+          with
+          [
+              _Other1=int,
+              _Other2=int
+          ]
+  d:\repo\algoritmos\closestpoints\closestpoints\source.cpp(221): note: see reference to function template instantiation 'std::pair<float,float>::pair<int,int,void,0>(_Other1 &&,_Other2 &&) noexcept' being compiled
+          with
+          [
+              _Other1=int,
+              _Other2=int
+          ]
+  ClosestPoints.vcxproj -> D:\REPO\ALGORITMOS\ClosestPoints\Debug\ClosestPoints.exe
+  ClosestPoints.vcxproj -> D:\REPO\ALGORITMOS\ClosestPoints\Debug\ClosestPoints.pdb (Partial PDB)

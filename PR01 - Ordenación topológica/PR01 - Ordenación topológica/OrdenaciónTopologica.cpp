@@ -74,25 +74,37 @@ void GrafoDirigido::mostrarOrdenTopologico() const throw(string) {
 
 	// A completar en el primer ejercicio
 	vector<int> numeroIncidentes(vertices.size());
-	queue<Vertice> colaVertices;
+	queue<int> colaVertices;
 
 	for (int i = 1; i < numeroIncidentes.size(); i++) { //Contadores de incidentes
 		numeroIncidentes[i] = vertices[i].incidentes.size();
 	}
 
-	int indiceRaiz = 1;
+	//buscar las raizes y encolarlas
+	for (int i = 1; i < numeroIncidentes.size(); i++) {
+		if (numeroIncidentes[i] == 0)
+			colaVertices.push(i);
+	}
 
-	while (indiceRaiz < numeroIncidentes.size()) {
-		if (numeroIncidentes[indiceRaiz] == 0) {
-			colaVertices.push(vertices[indiceRaiz]);
+	int contador = 0;
+	//Recorrer los arcos del grafo a partir de los vértices de la cola
+	while (!colaVertices.empty()) {
+		int vertice = colaVertices.front();
+		cout << vertice << " - ";
+		colaVertices.pop();
+		contador++;
+		//cout << vertice << " - " << contador << endl;
 
+		for (auto elem : vertices[vertice].adyacentes) {
+			numeroIncidentes[elem.destino]--;
+			if (numeroIncidentes[elem.destino] == 0)
+				colaVertices.push(elem.destino);
 		}
 	}
 
-	if (indiceRaiz == numeroIncidentes.size())
-		throw string("El grafo no es acíclico");
-
-
+	//Comprobar si el grafo es cíclico o acíclico
+	if (contador != numeroIncidentes.size() - 1)
+		throw string("El grafo no es aciclico");
 }
 
 
@@ -101,7 +113,7 @@ int main() {
 	try {
 		GrafoDirigido miGrafo("grafoEjemplo2.gr");
 		miGrafo.mostrar();
-		//miGrafo.mostrarOrdenTopologico();
+		miGrafo.mostrarOrdenTopologico();
 	}
 	catch (string error) {
 		cerr << error << endl;

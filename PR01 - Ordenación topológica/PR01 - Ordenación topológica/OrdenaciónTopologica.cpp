@@ -86,6 +86,7 @@ void GrafoDirigido::mostrarOrdenTopologico() const throw(string) {
 			colaVertices.push(i);
 	}
 
+	//Contador de veces que se ha hecho un pop a la cola
 	int contador = 0;
 	//Recorrer los arcos del grafo a partir de los vértices de la cola
 	while (!colaVertices.empty()) {

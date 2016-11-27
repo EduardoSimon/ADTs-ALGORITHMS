@@ -72,26 +72,42 @@ GrafoDirigido::GrafoDirigido(const char * nombreFichero) throw(string) {
 
 void GrafoDirigido::mostrarOrdenTopologico() const throw(string) {
 
-	// A completar en el primer ejercicio
+	//declaramos un vector paralelo para tener el contador de los incidentes
 	vector<int> numeroIncidentes(vertices.size());
-	queue<Vertice> colaVertices;
+	queue<int> colaVertices;
 
-	for (int i = 1; i < numeroIncidentes.size(); i++) { //Contadores de incidentes
+	for (int i = 1; i < numeroIncidentes.size(); i++) 
+	{ 
 		numeroIncidentes[i] = vertices[i].incidentes.size();
+		
+		if (numeroIncidentes[i] == 0)
+			colaVertices.push(i);
 	}
 
-	int indiceRaiz = 1;
+	int contador = 1;
 
-	while (indiceRaiz < numeroIncidentes.size()) {
-		if (numeroIncidentes[indiceRaiz] == 0) {
-			colaVertices.push(vertices[indiceRaiz]);
+	while (!(colaVertices.empty())) 
+	{
+		int front = colaVertices.front();
+		cout << front << "- ";
+		colaVertices.pop();
+		contador++;
 
+		//el for recorre todos los arcos que salen del vertice que esta en la salida de la cola.
+		for (auto elem : vertices[front].adyacentes)
+		{
+			//restamos 1 a los incidentes de cada nodo destino de front
+			numeroIncidentes[elem.destino]--;
+			
+			//si alguno de esos nodos destino no tiene incidentes lo encolamos
+			if (numeroIncidentes[elem.destino] == 0)
+				colaVertices.push(elem.destino);
 		}
 	}
 
-	if (indiceRaiz == numeroIncidentes.size())
-		throw string("El grafo no es acíclico");
 
+	if (contador != vertices.size())
+		throw ("El grafo es cíclico. ");
 
 }
 
@@ -101,7 +117,7 @@ int main() {
 	try {
 		GrafoDirigido miGrafo("grafoEjemplo2.gr");
 		miGrafo.mostrar();
-		//miGrafo.mostrarOrdenTopologico();
+		miGrafo.mostrarOrdenTopologico();
 	}
 	catch (string error) {
 		cerr << error << endl;

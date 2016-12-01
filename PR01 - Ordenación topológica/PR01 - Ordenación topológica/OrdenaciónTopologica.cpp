@@ -150,13 +150,12 @@ bool GrafoDirigido::esCiclico() const
 		
 }
 
-float GrafoDirigido::costeCaminoOptimoRecursivo(int s, int t, vector<float> & resultados) const
+float GrafoDirigido::costeCaminoOptimoRecursivo(int s, int t, vector<float> & resultados, vector<int> & camino) const
 {
-	
 	if (t == s)
-		return 0.0f;
+		return 0;
 
-	if (t != s && vertices[t].incidentes.size() == 0)
+	if (vertices[t].incidentes.size() == 0)
 		return INFINITY;
 
 	if (resultados[t] != DESCONOCIDO)
@@ -165,28 +164,40 @@ float GrafoDirigido::costeCaminoOptimoRecursivo(int s, int t, vector<float> & re
 	{
 		float resultado = INFINITY;
 
-		for (auto const & elem : vertices[t].incidentes)
+		for (auto arco : vertices[t].incidentes)
 		{
-			float candidato = costeCaminoOptimoRecursivo(s, elem.origen, resultados) + elem.peso;
+			float candidato = costeCaminoOptimoRecursivo(s, arco.origen, resultados, camino) + arco.peso;
 
 			if (candidato < resultado)
 			{
 				resultado = candidato;
+				camino[t] = arco.origen;
 			}
 		}
-
+		
 		return resultado;
 	}	
 }
 
 float GrafoDirigido::costeCaminoOptimo(int s, int t) const
 {
-	if (this->esCiclico())
-		throw("El grafo es ciclico, no se puede encontrar el coste del camino optimo de manera recursiva. Dikstra es la CLAVEEE");
-
+	
 	vector<float> resultados (vertices.size(), -1);
+	vector<int> camino(vertices.size());
 
-	return costeCaminoOptimoRecursivo(s, t, resultados);
+	float resultado = costeCaminoOptimoRecursivo(s, t, resultados, camino);
+
+	int i = t;
+
+	while (i != s)
+	{
+		cout << i << endl;
+		i = camino[i];
+	}
+	
+	cout << s << endl;
+
+	return resultado;
 }
 
 
@@ -194,9 +205,9 @@ int main() {
 
 	try {
 		GrafoDirigido miGrafo("grafoEjemplo2.gr");
-		miGrafo.mostrar();
+		/*miGrafo.mostrar();
 		miGrafo.mostrarOrdenTopologico();
-		cout << endl;
+		cout << endl;*/
 		cout << miGrafo.costeCaminoOptimo(1, 8) << endl;
 	}
 	catch (string error) {

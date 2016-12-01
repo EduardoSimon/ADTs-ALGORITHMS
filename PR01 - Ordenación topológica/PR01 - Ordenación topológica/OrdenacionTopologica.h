@@ -36,7 +36,7 @@ private:
 
 	bool esCiclico() const;
 
-	float costeCaminoOptimoRecursivo(int s, int t, vector<float> & resultados) const;
+	float costeCaminoOptimoRecursivo(int s, int t, vector<float> & resultados, vector<int> & camino) const;
 
 
 

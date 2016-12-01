@@ -30,6 +30,16 @@ public:
 
 	void mostrarOrdenTopologico() const throw(string);
 
+	float costeCaminoOptimo(int s, int t) const throw (string);
+
+private: 
+
+	bool esCiclico() const;
+
+	float costeCaminoOptimoRecursivo(int s, int t, vector<float> & resultados) const;
+
+
+
 };
 
 #endif

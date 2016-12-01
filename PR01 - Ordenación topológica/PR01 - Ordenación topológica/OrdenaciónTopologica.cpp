@@ -1,15 +1,14 @@
 // g++ GrafoDirigido.cpp -std=c++11 && ./a.out 
-
 #include <iostream>
 #include <fstream>
 #include <string>
-
+#include <math.h>
 #include <queue>
+#include "OrdenacionTopologica.h"
 
 using namespace std;
 
-
-#include "OrdenacionTopologica.h"
+#define DESCONOCIDO -1
 
 GrafoDirigido::Arco::Arco(int elOrigen, int elDestino, float elPeso)
 	: origen{ elOrigen }, destino{ elDestino }, peso{ elPeso } {
@@ -111,6 +110,85 @@ void GrafoDirigido::mostrarOrdenTopologico() const throw(string) {
 
 }
 
+bool GrafoDirigido::esCiclico() const
+{
+	//declaramos un vector paralelo para tener el contador de los incidentes
+	vector<int> numeroIncidentes(vertices.size());
+	queue<int> colaVertices;
+
+	for (int i = 1; i < numeroIncidentes.size(); i++)
+	{
+		numeroIncidentes[i] = vertices[i].incidentes.size();
+
+		if (numeroIncidentes[i] == 0)
+			colaVertices.push(i);
+	}
+
+	int contador = 1;
+
+	while (!(colaVertices.empty()))
+	{
+		int front = colaVertices.front();
+		cout << front << "- ";
+		colaVertices.pop();
+		contador++;
+
+		//el for recorre todos los arcos que salen del vertice que esta en la salida de la cola.
+		for (auto elem : vertices[front].adyacentes)
+		{
+			//restamos 1 a los incidentes de cada nodo destino de front
+			numeroIncidentes[elem.destino]--;
+
+			//si alguno de esos nodos destino no tiene incidentes lo encolamos
+			if (numeroIncidentes[elem.destino] == 0)
+				colaVertices.push(elem.destino);
+		}
+	}
+
+
+	return contador != vertices.size();
+		
+}
+
+float GrafoDirigido::costeCaminoOptimoRecursivo(int s, int t, vector<float> & resultados) const
+{
+	
+	if (t == s)
+		return 0.0f;
+
+	if (t != s && vertices[t].incidentes.size() == 0)
+		return INFINITY;
+
+	if (resultados[t] != DESCONOCIDO)
+		return resultados[t];
+	else 
+	{
+		float resultado = INFINITY;
+
+		for (auto const & elem : vertices[t].incidentes)
+		{
+			float candidato = costeCaminoOptimoRecursivo(s, elem.origen, resultados) + elem.peso;
+
+			if (candidato < resultado)
+			{
+				resultado = candidato;
+			}
+		}
+
+		return resultado;
+	}	
+}
+
+float GrafoDirigido::costeCaminoOptimo(int s, int t) const
+{
+	if (this->esCiclico())
+		throw("El grafo es ciclico, no se puede encontrar el coste del camino optimo de manera recursiva. Dikstra es la CLAVEEE");
+
+	vector<float> resultados (vertices.size(), -1);
+
+	return costeCaminoOptimoRecursivo(s, t, resultados);
+}
+
 
 int main() {
 
@@ -118,6 +196,8 @@ int main() {
 		GrafoDirigido miGrafo("grafoEjemplo2.gr");
 		miGrafo.mostrar();
 		miGrafo.mostrarOrdenTopologico();
+		cout << endl;
+		cout << miGrafo.costeCaminoOptimo(1, 8) << endl;
 	}
 	catch (string error) {
 		cerr << error << endl;

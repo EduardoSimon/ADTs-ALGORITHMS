@@ -22,6 +22,8 @@ class GrafoDirigido {
 
 	vector<Vertice> vertices; // El vertice i estara en la posicion i numerando desde 1
 
+	float costeCaminoOptimo(int, int, vector<float>&, vector<int>&);
+
 public:
 
 	GrafoDirigido(const char *) throw(string);
@@ -29,6 +31,8 @@ public:
 	void mostrar() const;
 
 	void mostrarOrdenTopologico() const throw(string);
+
+	float costeCaminoOptimo(int, int);
 
 };
 

@@ -3,11 +3,13 @@
 #include <iostream>
 #include <fstream>
 #include <string>
+#include <utility>
 
 #include <queue>
 
 using namespace std;
 
+#define DESCONOCIDO -1
 
 #include "OrdenacionTopologica.h"
 
@@ -109,12 +111,58 @@ void GrafoDirigido::mostrarOrdenTopologico() const throw(string) {
 }
 
 
+float GrafoDirigido::costeCaminoOptimo(int s, int t, vector<float> &resultados, vector<int> &camino) {
+	//Llegamos al origen
+	if (s == t)
+		return 0;
+
+	//Legamos a un vertice sin ningun arco incidente
+	if (vertices[t].incidentes.size() == 0) 
+		return INFINITY;
+
+	if (resultados[t] == DESCONOCIDO) {
+		//De momento el resultado será infinito
+		float resultado = INFINITY;
+		//Comprobamos todos los nodos incidentes
+		for (auto elem : vertices[t].incidentes) {
+			float candidato = costeCaminoOptimo(s, elem.origen, resultados, camino) + elem.peso;
+			if (candidato < resultado) {
+				resultado = candidato;
+				camino[t] = elem.origen;
+			}
+		}
+		return resultado;
+	}
+	else
+		return resultados[t];
+}
+
+float GrafoDirigido::costeCaminoOptimo(int s, int t) {
+	vector<float> resultados(vertices.size(), DESCONOCIDO);
+	vector<int> camino(vertices.size());
+
+	float coste = costeCaminoOptimo(s, t, resultados, camino);
+
+	int i = t;
+
+	while (i != s) {
+		cout << i << endl;
+		i = camino[i];
+	}
+	cout << i << endl;
+
+	return coste;
+}
+
+
 int main() {
 
 	try {
 		GrafoDirigido miGrafo("grafoEjemplo2.gr");
 		miGrafo.mostrar();
-		miGrafo.mostrarOrdenTopologico();
+		//miGrafo.mostrarOrdenTopologico();
+		cout << endl;
+		miGrafo.costeCaminoOptimo(1, 8);
 	}
 	catch (string error) {
 		cerr << error << endl;

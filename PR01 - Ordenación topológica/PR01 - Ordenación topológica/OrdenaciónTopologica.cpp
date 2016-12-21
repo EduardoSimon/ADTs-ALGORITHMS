@@ -154,6 +154,58 @@ float GrafoDirigido::costeCaminoOptimo(int s, int t) {
 	return coste;
 }
 
+bool GrafoDirigido::todosAlcanzables(int s) {
+	vector<bool> visitados(vertices.size());
+	queue<int> colaVertices;
+
+	colaVertices.push(s);
+
+	int contador = 1;
+
+	while (!colaVertices.empty()) {
+		int vertice = colaVertices.front();
+		colaVertices.pop();
+		contador++;
+
+		for (auto v : vertices[vertice].adyacentes) {
+			if (!visitados[v.destino]) {
+				colaVertices.push(v.destino);
+				visitados[v.destino] = true;
+			}
+		}
+	}
+
+	return contador == vertices.size() -1;
+}
+
+bool GrafoDirigido::alcanzableDesdeTodos(int s) {
+	vector<bool> visitados(vertices.size());
+	queue<int> colaVertices;
+
+	colaVertices.push(s);
+
+	int contador = 1;
+
+	while (!colaVertices.empty()) {
+		int vertice = colaVertices.front();
+		colaVertices.pop();
+		contador++;
+
+		for (auto v : vertices[vertice].incidentes) {
+			if (!visitados[v.destino]) {
+				colaVertices.push(v.destino);
+				visitados[v.destino] = true;
+			}
+		}
+	}
+
+	return contador == vertices.size() - 1;
+}
+
+bool GrafoDirigido::esFuertementeConexo(int s) { //Coste O( 2(|V|+|E|) )
+	return todosAlcanzables(s) && alcanzableDesdeTodos(s);
+}
+
 
 int main() {
 

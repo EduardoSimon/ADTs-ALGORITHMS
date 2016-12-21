@@ -34,6 +34,12 @@ public:
 
 	float costeCaminoOptimo(int, int);
 
+	bool todosAlcanzables(int);
+
+	bool alcanzableDesdeTodos(int);
+
+	bool esFuertementeConexo(int);
+
 };
 
 #endif

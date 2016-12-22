@@ -333,6 +333,17 @@ bool GrafoDirigido::esFuertementeConexo(int s) { //Coste O( 2(|V|+|E|) )
 >>>>>>> refs/remotes/origin/Vicet
 }
 
+bool GrafoDirigido::esAciclico(int s, vector<bool> &visitados, vector<bool> &acabados) {
+
+}
+
+bool GrafoDirigido::esAciclico() {
+	vector<bool> visitados(vertices.size());
+	vector<bool> acabados(vertices.size());
+
+	//Empezar recursión
+}
+
 
 int main() {
 

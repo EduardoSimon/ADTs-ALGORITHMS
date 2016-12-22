@@ -24,6 +24,8 @@ class GrafoDirigido {
 
 	float costeCaminoOptimo(int, int, vector<float>&, vector<int>&);
 
+	bool esAciclico(int, vector<bool> &, vector<bool> &);
+
 public:
 
 	GrafoDirigido(const char *) throw(string);
@@ -51,6 +53,8 @@ private:
 
 	bool esFuertementeConexo(int);
 >>>>>>> refs/remotes/origin/Vicet
+
+	bool esAciclico();
 
 };
 

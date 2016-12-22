@@ -2,13 +2,23 @@
 #include <iostream>
 #include <fstream>
 #include <string>
+<<<<<<< HEAD
 #include <math.h>
+=======
+#include <utility>
+
+>>>>>>> refs/remotes/origin/Vicet
 #include <queue>
 #include "OrdenacionTopologica.h"
 
 using namespace std;
 
 #define DESCONOCIDO -1
+<<<<<<< HEAD
+=======
+
+#include "OrdenacionTopologica.h"
+>>>>>>> refs/remotes/origin/Vicet
 
 GrafoDirigido::Arco::Arco(int elOrigen, int elDestino, float elPeso)
 	: origen{ elOrigen }, destino{ elDestino }, peso{ elPeso } {
@@ -83,6 +93,7 @@ void GrafoDirigido::mostrarOrdenTopologico() const throw(string) {
 			colaVertices.push(i);
 	}
 
+<<<<<<< HEAD
 	int contador = 1;
 
 	while (!(colaVertices.empty())) 
@@ -99,11 +110,32 @@ void GrafoDirigido::mostrarOrdenTopologico() const throw(string) {
 			numeroIncidentes[elem.destino]--;
 			
 			//si alguno de esos nodos destino no tiene incidentes lo encolamos
+=======
+	//buscar las raizes y encolarlas
+	for (int i = 1; i < numeroIncidentes.size(); i++) {
+		if (numeroIncidentes[i] == 0)
+			colaVertices.push(i);
+	}
+
+	//Contador de veces que se ha hecho un pop a la cola
+	int contador = 0;
+	//Recorrer los arcos del grafo a partir de los vértices de la cola
+	while (!colaVertices.empty()) {
+		int vertice = colaVertices.front();
+		cout << vertice << " - ";
+		colaVertices.pop();
+		contador++;
+		//cout << vertice << " - " << contador << endl;
+
+		for (auto elem : vertices[vertice].adyacentes) {
+			numeroIncidentes[elem.destino]--;
+>>>>>>> refs/remotes/origin/Vicet
 			if (numeroIncidentes[elem.destino] == 0)
 				colaVertices.push(elem.destino);
 		}
 	}
 
+<<<<<<< HEAD
 
 	if (contador != vertices.size())
 		throw ("El grafo es cíclico. ");
@@ -198,6 +230,107 @@ float GrafoDirigido::costeCaminoOptimo(int s, int t) const
 	cout << s << endl;
 
 	return resultado;
+=======
+	//Comprobar si el grafo es cíclico o acíclico
+	if (contador != numeroIncidentes.size() - 1)
+		throw string("El grafo no es aciclico");
+}
+
+
+float GrafoDirigido::costeCaminoOptimo(int s, int t, vector<float> &resultados, vector<int> &camino) {
+	//Llegamos al origen
+	if (s == t)
+		return 0;
+
+	//Legamos a un vertice sin ningun arco incidente
+	if (vertices[t].incidentes.size() == 0) 
+		return INFINITY;
+
+	if (resultados[t] == DESCONOCIDO) {
+		//De momento el resultado será infinito
+		float resultado = INFINITY;
+		//Comprobamos todos los nodos incidentes
+		for (auto elem : vertices[t].incidentes) {
+			float candidato = costeCaminoOptimo(s, elem.origen, resultados, camino) + elem.peso;
+			if (candidato < resultado) {
+				resultado = candidato;
+				camino[t] = elem.origen;
+			}
+		}
+		return resultado;
+	}
+	else
+		return resultados[t];
+}
+
+float GrafoDirigido::costeCaminoOptimo(int s, int t) {
+	vector<float> resultados(vertices.size(), DESCONOCIDO);
+	vector<int> camino(vertices.size());
+
+	float coste = costeCaminoOptimo(s, t, resultados, camino);
+
+	int i = t;
+
+	while (i != s) {
+		cout << i << endl;
+		i = camino[i];
+	}
+	cout << i << endl;
+
+	return coste;
+}
+
+bool GrafoDirigido::todosAlcanzables(int s) {
+	vector<bool> visitados(vertices.size());
+	queue<int> colaVertices;
+
+	colaVertices.push(s);
+
+	int contador = 1;
+
+	while (!colaVertices.empty()) {
+		int vertice = colaVertices.front();
+		colaVertices.pop();
+		contador++;
+
+		for (auto v : vertices[vertice].adyacentes) {
+			if (!visitados[v.destino]) {
+				colaVertices.push(v.destino);
+				visitados[v.destino] = true;
+			}
+		}
+	}
+
+	return contador == vertices.size() -1;
+}
+
+bool GrafoDirigido::alcanzableDesdeTodos(int s) {
+	vector<bool> visitados(vertices.size());
+	queue<int> colaVertices;
+
+	colaVertices.push(s);
+
+	int contador = 1;
+
+	while (!colaVertices.empty()) {
+		int vertice = colaVertices.front();
+		colaVertices.pop();
+		contador++;
+
+		for (auto v : vertices[vertice].incidentes) {
+			if (!visitados[v.destino]) {
+				colaVertices.push(v.destino);
+				visitados[v.destino] = true;
+			}
+		}
+	}
+
+	return contador == vertices.size() - 1;
+}
+
+bool GrafoDirigido::esFuertementeConexo(int s) { //Coste O( 2(|V|+|E|) )
+	return todosAlcanzables(s) && alcanzableDesdeTodos(s);
+>>>>>>> refs/remotes/origin/Vicet
 }
 
 
@@ -205,10 +338,17 @@ int main() {
 
 	try {
 		GrafoDirigido miGrafo("grafoEjemplo2.gr");
+<<<<<<< HEAD
 		/*miGrafo.mostrar();
 		miGrafo.mostrarOrdenTopologico();
 		cout << endl;*/
 		cout << miGrafo.costeCaminoOptimo(1, 8) << endl;
+=======
+		miGrafo.mostrar();
+		//miGrafo.mostrarOrdenTopologico();
+		cout << endl;
+		miGrafo.costeCaminoOptimo(1, 8);
+>>>>>>> refs/remotes/origin/Vicet
 	}
 	catch (string error) {
 		cerr << error << endl;

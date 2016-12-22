@@ -22,6 +22,8 @@ class GrafoDirigido {
 
 	vector<Vertice> vertices; // El vertice i estara en la posicion i numerando desde 1
 
+	float costeCaminoOptimo(int, int, vector<float>&, vector<int>&);
+
 public:
 
 	GrafoDirigido(const char *) throw(string);
@@ -30,6 +32,7 @@ public:
 
 	void mostrarOrdenTopologico() const throw(string);
 
+<<<<<<< HEAD
 	float costeCaminoOptimo(int s, int t) const throw (string);
 
 private: 
@@ -39,6 +42,15 @@ private:
 	float costeCaminoOptimoRecursivo(int s, int t, vector<float> & resultados, vector<int> & camino) const;
 
 
+=======
+	float costeCaminoOptimo(int, int);
+
+	bool todosAlcanzables(int);
+
+	bool alcanzableDesdeTodos(int);
+
+	bool esFuertementeConexo(int);
+>>>>>>> refs/remotes/origin/Vicet
 
 };
 

@@ -207,14 +207,35 @@ bool GrafoDirigido::esFuertementeConexo(int s) { //Coste O( 2(|V|+|E|) )
 }
 
 bool GrafoDirigido::esAciclico(int s, vector<bool> &visitados, vector<bool> &acabados) {
+	for (auto v : vertices[s].adyacentes) {
+		if (acabados[v.destino])
+			return false;
+		else if (!visitados[v.destino]) {
+			visitados[v.destino] = true;
+			bool candidato = esAciclico(v.destino, visitados, acabados);
 
+			if (!candidato) return false;
+		}
+	}
+
+	acabados[s] = true;
+	return true;
 }
 
 bool GrafoDirigido::esAciclico() {
-	vector<bool> visitados(vertices.size());
-	vector<bool> acabados(vertices.size());
+	vector<bool> visitados(vertices.size(), false);
+	vector<bool> acabados(vertices.size(), false);
 
 	//Empezar recursión
+	for (int i = 0; i < vertices.size(); i++) {
+		if (!visitados[i]) {
+			visitados[i] = true;
+			bool  candidato = esAciclico(i, visitados, acabados);
+			if (!candidato) return false;
+		}
+	}
+
+	return true;
 }
 
 

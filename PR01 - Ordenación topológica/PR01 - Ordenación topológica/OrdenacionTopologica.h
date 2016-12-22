@@ -26,6 +26,8 @@ class GrafoDirigido {
 
 	bool esAciclico(int, vector<bool> &, vector<bool> &);
 
+	void ordenacionTopologicaDFS(int, stack<int>&, vector<bool>&);
+
 public:
 
 	GrafoDirigido(const char *) throw(string);
@@ -43,6 +45,8 @@ public:
 	bool esFuertementeConexo(int);
 
 	bool esAciclico();
+
+	void ordenacionTopologicaDFS();
 
 };
 

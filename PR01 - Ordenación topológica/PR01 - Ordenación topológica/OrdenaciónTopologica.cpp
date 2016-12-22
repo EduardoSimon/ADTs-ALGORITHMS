@@ -6,6 +6,7 @@
 #include <utility>
 
 #include <queue>
+#include <stack>
 
 using namespace std;
 
@@ -207,14 +208,13 @@ bool GrafoDirigido::esFuertementeConexo(int s) { //Coste O( 2(|V|+|E|) )
 }
 
 bool GrafoDirigido::esAciclico(int s, vector<bool> &visitados, vector<bool> &acabados) {
+
+	visitados[s] = true;
 	for (auto v : vertices[s].adyacentes) {
-		if (acabados[v.destino])
+		if (!acabados[v.destino] && visitados[s])
 			return false;
 		else if (!visitados[v.destino]) {
-			visitados[v.destino] = true;
-			bool candidato = esAciclico(v.destino, visitados, acabados);
-
-			if (!candidato) return false;
+			if (!esAciclico(v.destino, visitados, acabados)) return false;
 		}
 	}
 
@@ -227,15 +227,42 @@ bool GrafoDirigido::esAciclico() {
 	vector<bool> acabados(vertices.size(), false);
 
 	//Empezar recursión
-	for (int i = 0; i < vertices.size(); i++) {
+	for (int i = 1; i < vertices.size(); i++) {
 		if (!visitados[i]) {
-			visitados[i] = true;
-			bool  candidato = esAciclico(i, visitados, acabados);
-			if (!candidato) return false;
+			if (!esAciclico(i, visitados, acabados)) return false;
 		}
 	}
 
 	return true;
+}
+
+void GrafoDirigido::ordenacionTopologicaDFS(int s, stack<int> &pilaVertices, vector<bool> &visitados) {
+	visitados[s] = true;
+
+	for (auto v : vertices[s].adyacentes) {
+		if (!visitados[v.destino]) {
+			ordenacionTopologicaDFS(v.destino, pilaVertices, visitados);
+		}
+	}
+
+	pilaVertices.push(s);
+}
+
+void GrafoDirigido::ordenacionTopologicaDFS() {
+	stack<int> pilaVertices;
+	vector<bool>visitados(vertices.size(), false);
+
+	for (int i = 1; i < vertices.size(); i++) {
+		if (!visitados[i]) {
+			ordenacionTopologicaDFS(i, pilaVertices, visitados);
+		}
+	}
+
+	while (!pilaVertices.empty()) {
+		cout << pilaVertices.top << " - ";
+		pilaVertices.pop();
+	}
+	cout << endl;
 }
 
 

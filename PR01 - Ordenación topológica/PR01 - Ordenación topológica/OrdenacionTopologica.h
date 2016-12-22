@@ -1,8 +1,8 @@
-
 #ifndef _GRAFO_DIRIGIDO_H
 #define _GRAFO_DIRIGIDO__H
 
 #include <vector>
+#include <stack>
 
 using namespace std;
 
@@ -24,9 +24,13 @@ class GrafoDirigido {
 
 	float costeCaminoOptimo(int, int, vector<float>&, vector<int>&);
 
-	bool esAciclico(int, vector<bool> &, vector<bool> &);
+	bool esAciclicoDFS(int, vector<int> &);
+	
+	void mostrarOrdenTopologicoDFS(int v, stack<int> & pilaImpresion, vector<bool> & visitados);
 
 public:
+
+	bool esAciclicoDFS() ;
 
 	GrafoDirigido(const char *) throw(string);
 
@@ -34,17 +38,6 @@ public:
 
 	void mostrarOrdenTopologico() const throw(string);
 
-<<<<<<< HEAD
-	float costeCaminoOptimo(int s, int t) const throw (string);
-
-private: 
-
-	bool esCiclico() const;
-
-	float costeCaminoOptimoRecursivo(int s, int t, vector<float> & resultados, vector<int> & camino) const;
-
-
-=======
 	float costeCaminoOptimo(int, int);
 
 	bool todosAlcanzables(int);
@@ -52,9 +45,8 @@ private:
 	bool alcanzableDesdeTodos(int);
 
 	bool esFuertementeConexo(int);
->>>>>>> refs/remotes/origin/Vicet
 
-	bool esAciclico();
+	void mostrarOrdenTopologicoDFS() throw(string);
 
 };
 

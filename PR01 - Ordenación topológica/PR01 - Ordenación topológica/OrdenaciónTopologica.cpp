@@ -1,24 +1,17 @@
 // g++ GrafoDirigido.cpp -std=c++11 && ./a.out 
+
 #include <iostream>
 #include <fstream>
 #include <string>
-<<<<<<< HEAD
-#include <math.h>
-=======
 #include <utility>
-
->>>>>>> refs/remotes/origin/Vicet
+#include <stack>
 #include <queue>
-#include "OrdenacionTopologica.h"
 
 using namespace std;
 
 #define DESCONOCIDO -1
-<<<<<<< HEAD
-=======
 
 #include "OrdenacionTopologica.h"
->>>>>>> refs/remotes/origin/Vicet
 
 GrafoDirigido::Arco::Arco(int elOrigen, int elDestino, float elPeso)
 	: origen{ elOrigen }, destino{ elDestino }, peso{ elPeso } {
@@ -81,36 +74,14 @@ GrafoDirigido::GrafoDirigido(const char * nombreFichero) throw(string) {
 
 void GrafoDirigido::mostrarOrdenTopologico() const throw(string) {
 
-	//declaramos un vector paralelo para tener el contador de los incidentes
+	// A completar en el primer ejercicio
 	vector<int> numeroIncidentes(vertices.size());
 	queue<int> colaVertices;
 
-	for (int i = 1; i < numeroIncidentes.size(); i++) 
-	{ 
+	for (int i = 1; i < numeroIncidentes.size(); i++) { //Contadores de incidentes
 		numeroIncidentes[i] = vertices[i].incidentes.size();
-		
-		if (numeroIncidentes[i] == 0)
-			colaVertices.push(i);
 	}
 
-<<<<<<< HEAD
-	int contador = 1;
-
-	while (!(colaVertices.empty())) 
-	{
-		int front = colaVertices.front();
-		cout << front << "- ";
-		colaVertices.pop();
-		contador++;
-
-		//el for recorre todos los arcos que salen del vertice que esta en la salida de la cola.
-		for (auto elem : vertices[front].adyacentes)
-		{
-			//restamos 1 a los incidentes de cada nodo destino de front
-			numeroIncidentes[elem.destino]--;
-			
-			//si alguno de esos nodos destino no tiene incidentes lo encolamos
-=======
 	//buscar las raizes y encolarlas
 	for (int i = 1; i < numeroIncidentes.size(); i++) {
 		if (numeroIncidentes[i] == 0)
@@ -129,108 +100,11 @@ void GrafoDirigido::mostrarOrdenTopologico() const throw(string) {
 
 		for (auto elem : vertices[vertice].adyacentes) {
 			numeroIncidentes[elem.destino]--;
->>>>>>> refs/remotes/origin/Vicet
 			if (numeroIncidentes[elem.destino] == 0)
 				colaVertices.push(elem.destino);
 		}
 	}
 
-<<<<<<< HEAD
-
-	if (contador != vertices.size())
-		throw ("El grafo es cíclico. ");
-
-}
-
-bool GrafoDirigido::esCiclico() const
-{
-	//declaramos un vector paralelo para tener el contador de los incidentes
-	vector<int> numeroIncidentes(vertices.size());
-	queue<int> colaVertices;
-
-	for (int i = 1; i < numeroIncidentes.size(); i++)
-	{
-		numeroIncidentes[i] = vertices[i].incidentes.size();
-
-		if (numeroIncidentes[i] == 0)
-			colaVertices.push(i);
-	}
-
-	int contador = 1;
-
-	while (!(colaVertices.empty()))
-	{
-		int front = colaVertices.front();
-		cout << front << "- ";
-		colaVertices.pop();
-		contador++;
-
-		//el for recorre todos los arcos que salen del vertice que esta en la salida de la cola.
-		for (auto elem : vertices[front].adyacentes)
-		{
-			//restamos 1 a los incidentes de cada nodo destino de front
-			numeroIncidentes[elem.destino]--;
-
-			//si alguno de esos nodos destino no tiene incidentes lo encolamos
-			if (numeroIncidentes[elem.destino] == 0)
-				colaVertices.push(elem.destino);
-		}
-	}
-
-
-	return contador != vertices.size();
-		
-}
-
-float GrafoDirigido::costeCaminoOptimoRecursivo(int s, int t, vector<float> & resultados, vector<int> & camino) const
-{
-	if (t == s)
-		return 0;
-
-	if (vertices[t].incidentes.size() == 0)
-		return INFINITY;
-
-	if (resultados[t] != DESCONOCIDO)
-		return resultados[t];
-	else 
-	{
-		float resultado = INFINITY;
-
-		for (auto arco : vertices[t].incidentes)
-		{
-			float candidato = costeCaminoOptimoRecursivo(s, arco.origen, resultados, camino) + arco.peso;
-
-			if (candidato < resultado)
-			{
-				resultado = candidato;
-				camino[t] = arco.origen;
-			}
-		}
-		
-		return resultado;
-	}	
-}
-
-float GrafoDirigido::costeCaminoOptimo(int s, int t) const
-{
-	
-	vector<float> resultados (vertices.size(), -1);
-	vector<int> camino(vertices.size());
-
-	float resultado = costeCaminoOptimoRecursivo(s, t, resultados, camino);
-
-	int i = t;
-
-	while (i != s)
-	{
-		cout << i << endl;
-		i = camino[i];
-	}
-	
-	cout << s << endl;
-
-	return resultado;
-=======
 	//Comprobar si el grafo es cíclico o acíclico
 	if (contador != numeroIncidentes.size() - 1)
 		throw string("El grafo no es aciclico");
@@ -243,7 +117,7 @@ float GrafoDirigido::costeCaminoOptimo(int s, int t, vector<float> &resultados, 
 		return 0;
 
 	//Legamos a un vertice sin ningun arco incidente
-	if (vertices[t].incidentes.size() == 0) 
+	if (vertices[t].incidentes.size() == 0)
 		return INFINITY;
 
 	if (resultados[t] == DESCONOCIDO) {
@@ -301,7 +175,7 @@ bool GrafoDirigido::todosAlcanzables(int s) {
 		}
 	}
 
-	return contador == vertices.size() -1;
+	return contador == vertices.size() - 1;
 }
 
 bool GrafoDirigido::alcanzableDesdeTodos(int s) {
@@ -330,57 +204,93 @@ bool GrafoDirigido::alcanzableDesdeTodos(int s) {
 
 bool GrafoDirigido::esFuertementeConexo(int s) { //Coste O( 2(|V|+|E|) )
 	return todosAlcanzables(s) && alcanzableDesdeTodos(s);
->>>>>>> refs/remotes/origin/Vicet
 }
 
-bool GrafoDirigido::esAciclico(int s, vector<bool> &visitados, vector<bool> &acabados) {
-	for (auto v : vertices[s].adyacentes) {
-		if (acabados[v.destino])
+bool GrafoDirigido::esAciclicoDFS(int s, vector<int> & estado) 
+{
+	//lo marcamos como visitado
+	estado[s] = 1;
+
+	for (auto arco : vertices[s].adyacentes)
+	{
+		//este es el caso base que devuelve false a la comprobacion anterior
+		if (estado[arco.destino] == 1)
 			return false;
-		else if (!visitados[v.destino]) {
-			visitados[v.destino] = true;
-			bool candidato = esAciclico(v.destino, visitados, acabados);
 
-			if (!candidato) return false;
-		}
+		//si no esta visitado el vecino
+		if (estado[arco.destino] == 0)
+			//comprobamos si nos ha dado que es ciclico para algun antecesor antes de que acabe la recursion.
+			if(!esAciclicoDFS(arco.destino, estado))
+				//en caso que ya lo hallamos visitado antes y sea antecesor en la pila de llamadas recursivas significara que hay un ciclo
+				return false;
 	}
 
-	acabados[s] = true;
+	//si ha acabado la recursion y no ha pasado por nodos ya visitados devolvemos true ya que no hay ciclos.
+	estado[s] = 2;
 	return true;
 }
 
-bool GrafoDirigido::esAciclico() {
-	vector<bool> visitados(vertices.size(), false);
-	vector<bool> acabados(vertices.size(), false);
+bool GrafoDirigido::esAciclicoDFS() 
+{
+	vector<int> estadoVertices(vertices.size(), 0);
 
-	//Empezar recursión
-	for (int i = 0; i < vertices.size(); i++) {
-		if (!visitados[i]) {
-			visitados[i] = true;
-			bool  candidato = esAciclico(i, visitados, acabados);
-			if (!candidato) return false;
-		}
+	for (int i = 1; i < vertices.size(); i++)
+	{
+		if (estadoVertices[i] == 0)
+			if (!esAciclicoDFS(i, estadoVertices))
+				return false;
 	}
 
+	//en caso contrario, comprobara todos hasta poder decir que no hay ciclos
 	return true;
 }
 
+void GrafoDirigido::mostrarOrdenTopologicoDFS(int v, stack<int>& pilaImpresion, vector<bool>& visitados)
+{
+	visitados[v] = true;
+
+	for (auto arco : vertices[v].adyacentes)
+	{
+		if (!visitados[v])
+		{
+			mostrarOrdenTopologicoDFS(arco.destino, pilaImpresion, visitados);
+		}
+	}
+
+	pilaImpresion.push(v);
+
+}
+
+void GrafoDirigido::mostrarOrdenTopologicoDFS() throw(string)
+{
+	vector<bool> visitados(vertices.size(),false);
+	stack<int> pilaImpresion;
+
+	for (int i = 1; i < vertices.size(); i++)
+	{
+		if (!visitados[i])
+			mostrarOrdenTopologicoDFS(i, pilaImpresion, visitados);
+	}
+
+	while (!pilaImpresion.empty())
+	{
+		cout << pilaImpresion.top() << " ,";
+		pilaImpresion.pop();
+	}
+
+
+}
 
 int main() {
 
 	try {
 		GrafoDirigido miGrafo("grafoEjemplo2.gr");
-<<<<<<< HEAD
-		/*miGrafo.mostrar();
-		miGrafo.mostrarOrdenTopologico();
-		cout << endl;*/
-		cout << miGrafo.costeCaminoOptimo(1, 8) << endl;
-=======
 		miGrafo.mostrar();
-		//miGrafo.mostrarOrdenTopologico();
+		miGrafo.mostrarOrdenTopologico();
 		cout << endl;
-		miGrafo.costeCaminoOptimo(1, 8);
->>>>>>> refs/remotes/origin/Vicet
+		//miGrafo.costeCaminoOptimo(1, 8);
+		miGrafo.mostrarOrdenTopologicoDFS();
+		cout << endl;
 	}
 	catch (string error) {
 		cerr << error << endl;

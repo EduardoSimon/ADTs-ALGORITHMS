@@ -1,2 +1,2 @@
-# PracticasAlgoritmos
-Repositorio privado de Eduardo Simón para la asignatura de estructuras de datos y algoritmos
+# CUSTOM IMPLEMENTATION OF ADTs AND COMMON ALGORITHMS
+
